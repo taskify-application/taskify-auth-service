@@ -1,0 +1,40 @@
+server:
+  port: 8081 # Runs on 8081 to avoid port conflicts
+
+spring:
+  application:
+    name: taskify-auth-service
+
+  # 🐘 PostgreSQL Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/taskify_auth_db
+    username: postgres # Replace with your local PostgreSQL username
+    password: admin # Replace with your local PostgreSQL password
+    driver-class-name: org.postgresql.Driver
+
+  # 💾 Hibernate / JPA Settings
+  jpa:
+    hibernate:
+      ddl-auto: update # Automatically updates the database schema matching Java entities
+    show-sql: true # Logs raw SQL queries in the console (perfect for debugging)
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  # ⚡ Redis Configuration (For 5-Minute OTP TTL Cache)
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      # password: your_redis_password (uncomment if your local Redis requires a password)
+
+# 📈 Actuator Monitoring Setup
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always # Shows database and redis health details along with the UP status
